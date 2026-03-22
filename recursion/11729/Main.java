@@ -11,32 +11,23 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        sb.append((int) (Math.pow(2, N) - 1)).append("\n");
-
-        hanoi(N, 1, 2, 3);
-        System.out.println(sb.toString());
+        System.out.println((int)Math.pow(2, N) - 1);
+        hanoi(1, 3, N);
     }
 
-    /*
-        n: 원판의 개수
-        start: 출발지
-        mid: 옮기기 위해 이동해야하는 장소
-        to: 목적지
-     */
-    private static int hanoi(int n, int start, int mid, int to) {
+    // 기둥 a, b, 6-a-b / 원판 n개를 a번 기둥에서 b번 기둥으로 옮기는 방법을 출력하는 함수
+    private static void hanoi(int a, int b, int n) {
+        // base condition
         if (n == 1) {
-            sb.append(start + " " + to + "\n");
+            System.out.println(a + " " + b);
             return;
         }
 
-        // A -> C로 옮긴다고 가정할 때,
-        // STEP 1: N-1개를 A에서 B로 이동 (= start 지점의 N-1개의 원판을 mid 지점으로 옮긴다.)
-        hanoi(n - 1, start, to, mid);
-
-        // STEP 2: 1개를 A에서 C로 이동 (= start 지점의 N번째 원판을 to 지점으로 옮긴다.)
-        sb.append(start + " " + to + "\n");
-
-        // STEP 3: N-1개를 B에서 C로 이동 (=mid 지점의 N-1개의 원판을 to 지점으로 옮긴다.)
-        hanoi(n - 1, mid, start, to);
+        // case1: n-1개의 원판을 기둥 a에서 기둥 6-a-b로 옮긴다.
+        hanoi(a, 6-a-b, n-1);
+        // case2: n번 원판을 기둥 a에서 기둥 b로 옮긴다.
+        System.out.println(a + " " + b);
+        // case3: n-1개의 원판을 기둥 6-a-b에서 기둥 b로 옮긴다.
+        hanoi(6-a-b, b, n-1);
     }
 }
