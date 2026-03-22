@@ -15,11 +15,17 @@ public class Main {
     }
 
     // 더이상 안나눠질 때까지 4등분 해서 왼 위 - 오른 위 - 왼 아래 - 오른 아래 순 탐색
-    // 1. (0, 0) / 2. (0, 2^(N-1)) / 3. (2^(N-1), 0) / 4. (2^(N-1), 2^(N-1))
+    // 구역별 시작 위치: 1. (0, 0) / 2. (0, 2^(N-1)) / 3. (2^(N-1), 0) / 4. (2^(N-1), 2^(N-1))
+    // N==1 일때까지 구역을 줄여감. 이전 구역들의 합을 더함.
     private static int cal_z(int N, int r, int c) {
 
+        boolean isArea1 = r >= 0 && r < Math.pow(2, N-1) && c >= 0 && c < Math.pow(2, N-1);
+        boolean isArea2 = r >= 0 && r < Math.pow(2, N-1) && c >= Math.pow(2, N-1) && c < Math.pow(2, N);
+        boolean isArea3 = r >= Math.pow(2, N-1) && r < Math.pow(2, N) && c >= 0 && c < Math.pow(2, N-1);
+        boolean isArea4 = r >= Math.pow(2, N-1) && r < Math.pow(2, N) && c >= Math.pow(2, N-1) && c < Math.pow(2, N);
+
         // #1
-        if (r >= 0 && r < Math.pow(2, N-1) && c >= 0 && c < Math.pow(2, N-1)) {
+        if (isArea1) {
             if (N == 1) {
                 return 0;
             }
@@ -27,7 +33,7 @@ public class Main {
         }
 
         // #2
-        else if (r >= 0 && r < Math.pow(2, N-1) && c >= Math.pow(2, N-1) && c < Math.pow(2, N)) {
+        else if (isArea2) {
             if (N == 1) {
                 return 1;
             }
@@ -35,7 +41,7 @@ public class Main {
         }
 
         // #3
-        else if (r >= Math.pow(2, N-1) && r < Math.pow(2, N) && c >= 0 && c < Math.pow(2, N-1)) {
+        else if (isArea3) {
             if (N == 1) {
                 return 2;
             }
@@ -43,7 +49,7 @@ public class Main {
         }
 
         // #4
-        else if (r >= Math.pow(2, N-1) && r < Math.pow(2, N) && c >= Math.pow(2, N-1) && c < Math.pow(2, N)) {
+        else if (isArea4) {
             if (N == 1) {
                 return 3;
             }
