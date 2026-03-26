@@ -32,36 +32,55 @@ public class Main {
     private static void func(int k, int result) {
         // base condition
         if (k == n) {
-            if (max < result) {
-                max = result;
-            }
-            if (min > result) {
-                min = result;
-            }
+            max = Math.max(max, result);
+            min = Math.min(min, result);
+//            if (max < result) {
+//                max = result;
+//            }
+//            if (min > result) {
+//                min = result;
+//            }
             return;
         }
 
         for (int i = 0; i < 4; i++) {
-            if (i == 0 && op[i] > 0) {
-                op[i]--;
-                func(k+1, result + arr[k]);
-                op[i]++;
-            }
-            else if (i == 1 && op[i] > 0) {
-                op[i]--;
-                func(k+1, result - arr[k]);
-                op[i]++;
-            }
-            else if (i == 2 && op[i] > 0) {
-                op[i]--;
-                func(k+1, result * arr[k]);
-                op[i]++;
-            }
-            else if (i == 3 && op[i] > 0) {
-                op[i]--;
-                func(k+1, result / arr[k]);
-                op[i]++;
-            }
+            if (op[i] == 0) continue;
+
+            op[i]--;
+            int next = calculate(result, arr[k], i);
+            func(k + 1, next);
+            op[i]++;
+
+//            if (i == 0 && op[i] > 0) {
+//                op[i]--;
+//                func(k+1, result + arr[k]);
+//                op[i]++;
+//            }
+//            else if (i == 1 && op[i] > 0) {
+//                op[i]--;
+//                func(k+1, result - arr[k]);
+//                op[i]++;
+//            }
+//            else if (i == 2 && op[i] > 0) {
+//                op[i]--;
+//                func(k+1, result * arr[k]);
+//                op[i]++;
+//            }
+//            else if (i == 3 && op[i] > 0) {
+//                op[i]--;
+//                func(k+1, result / arr[k]);
+//                op[i]++;
+//            }
         }
+    }
+
+    private static int calculate(int a, int b, int operator) {
+        switch (operator) {
+            case 0: return a + b;
+            case 1: return a - b;
+            case 2: return a * b;
+            case 3: return a / b;
+        }
+        return 0;
     }
 }
