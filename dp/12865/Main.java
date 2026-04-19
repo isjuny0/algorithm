@@ -18,13 +18,51 @@ public class Main {
             v[i] = Integer.parseInt(st.nextToken());
         }
 
-        // d[i] = 배낭이 i 무게일 때 최대 가치합
+        /* 점화식
+           f(i,k) = if i=0, K=0: 0
+                    if w[i] > K: f(i-1, k)
+                    if 0 < i and w[i] <= K: max(f(i-1, K-w[i]) + v[i], f(i-1, K))
+         */
         int[] d = new int[K+1];
+
         for (int i = 1; i <= N; i++) {
-            for (int j = K; j >= w[i]; j--) {
-                d[j] = Math.max(d[j], d[j - w[i]] + v[i]);
+            // 중복 탐색 제거(i번째 물건에 대해 넣을 수 있는 경우만)
+            for (int j = K; j - w[i] >= 0; j--) {
+                dp[j] = Math.max(dp[j], dp[j - w[i]] + v[i]);
+
+//            불필요한 탐색 포함
+//            for (int j = 1; j <= K; j++) {
+//
+//                // i번째 무게를 더 담을 수 없는 경우
+//                if (w[i] > j) {
+//                    dp[i][j] = dp[i-1][j];
+//                }
+//
+//                // i번째 무게를 더 담을 수 있는 경우
+//                else {
+//                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-w[i]] + v[i]);
+//                }
+//            }
             }
         }
-        System.out.println(d[K]);
     }
+
+    // top-down
+//    private static int knapsack(int i, int k) {
+//        if (i < 0)
+//            return 0;
+//
+//        if (dp[i][k] == null) {
+//
+//            // 현재 물건(i)를 추가로 못담는 경우(이전 i값 탐색)
+//            if (w[i] > k) {
+//                dp[i][k] = knapsack(i-1, k);
+//            }
+//            // 현재 물건(i)를 담을 수 있는 경우
+//            else if (w[i] <= k) {
+//                dp[i][k] = Math.max(knapsack(i-1, k), knapsack(i-1, k-w[i] + v[i]));
+//            }
+//        }
+//        return dp[i][k];
+//    }
 }
